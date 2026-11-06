@@ -11,8 +11,6 @@ Codex 可以通过本地配置文件选择模型和服务商。若你的团队�
 
 先确认服务商明确支持 Codex 所需的接口协议，并准备好 API 根地址、模型标识和 API Key。使用第三方服务前，建议先了解其数据处理、日志留存和计费规则。
 
-请勿将真实 API Key 写进文章、截图或公开仓库。
-
 ## 找到配置文件
 
 Codex 配置文件通常位于用户目录下的 .codex/config.toml：
@@ -27,16 +25,23 @@ Codex 配置文件通常位于用户目录下的 .codex/config.toml：
 在 config.toml 中添加或调整默认模型设置。示例名称需要替换为服务商实际提供的值：
 
 ```toml
-model = "your-model"
-model_provider = "custom_gateway"
-model_reasoning_effort = "medium"
+model_provider = "OpenAI"
+model = "gpt-6.1-sol"
+review_model = "gpt-6.1"
+disable_response_storage = true
+network_access = "enabled"
+windows_wsl_setup_acknowledged = true
 
-[model_providers.custom_gateway]
-name = "Custom Gateway"
-base_url = "https://api.example.com/v1"
-env_key = "CUSTOM_API_KEY"
+[model_providers.OpenAI]
+name = "OpenAI"
+base_url = "https://xxx.xxx.org/v1"
+model_catalog_url = "https://xxx.xxxx.org/v1/models"
 wire_api = "responses"
-requires_openai_auth = false
+requires_openai_auth = true
+
+[features]
+api_key_model_discovery = true
+goals = true
 ```
 
 model_provider 的值需要与 [model_providers.custom_gateway] 中的名称对应。示例中的 base_url、wire_api 和认证选项必须符合服务端要求；不要假设所有兼容服务都使用相同路径或协议。
